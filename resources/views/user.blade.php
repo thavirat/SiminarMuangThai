@@ -35,10 +35,11 @@
                                 <table class="table table-bordered" id="tableUser">
                                     <thead>
                                         <tr>
-                                            <td>No</td>
-                                            <td>Name</td>
-                                            <td>User</td>
-                                            <td>Action</td>
+                                            <th>No</th>
+                                            <th>Department</th>
+                                            <th>Name</th>
+                                            <th>User</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -204,14 +205,24 @@ $('body').on('submit' , '#formEditUser' , function(e){
 
 
 var TableUser = new DataTable('#tableUser', {
-    ajax: '{{url("user/lists")}}',
+    "ajax":
+        {
+        "url": '{{url("user/lists")}}',
+        "data": function (d) {
+            d.filter_from = '';
+            // d.start = '';
+
+        }
+    },
     processing: true,
     serverSide: true,
+
     "columns": [
         {"data" : "id", name: 'id'},
+        {"data" : "department_name", name: 'departments.name'},
         {"data" : "name", name: 'name'},
         {"data" : "email", name: 'email'},
-        {"data" : "action", name: 'action' , searchable : false},
+        {"data" : "action", name: 'action'},
     ]
 });
 </script>

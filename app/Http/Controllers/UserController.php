@@ -98,7 +98,11 @@ class UserController extends Controller
     }
 
     public function lists(){
-        $data = User::Query();
+        $data = User::leftJoin('departments' , 'departments.id' , 'users.department_id')
+        ->select(
+            'users.*'
+            ,'departments.name as department_name'
+        );
         return DataTables::of($data)
         ->addColumn('action' , function($rec){
             $str='<button class="btn btn-warning btn-sm btn-edit" data-id="'.$rec->id.'" >
@@ -107,6 +111,6 @@ class UserController extends Controller
             return $str;
         })
         ->rawColumns(['action'])
-        ->toJson();
+        ->make(true);
     }
 }
